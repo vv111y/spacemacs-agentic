@@ -1,5 +1,7 @@
 #+TITLE: Spacemacs Agentic Systems layer
 
+[[https://github.com/vv111y/spacemacs-agentic/actions/workflows/ci.yml][https://github.com/vv111y/spacemacs-agentic/actions/workflows/ci.yml/badge.svg]]
+
 An opinionated Spacemacs layer for agentic software development: portable AI
 coding workflows, ACP agents, cross-agent review, and durable session recall.
 
