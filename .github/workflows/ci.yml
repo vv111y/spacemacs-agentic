@@ -41,9 +41,9 @@ jobs:
           mkdir -p "$RUNNER_TEMP/home" "$RUNNER_TEMP/spacemacs.d"
           ln -s "$GITHUB_WORKSPACE/vendor/spacemacs" \
             "$RUNNER_TEMP/home/.emacs.d"
-          mkdir -p "$GITHUB_WORKSPACE/vendor/spacemacs/private/agentic-systems"
+          mkdir -p "$GITHUB_WORKSPACE/vendor/spacemacs/private/spacemacs-agentic"
           cp config.el layers.el packages.el README.org \
-            "$GITHUB_WORKSPACE/vendor/spacemacs/private/agentic-systems/"
+            "$GITHUB_WORKSPACE/vendor/spacemacs/private/spacemacs-agentic/"
           cp test/integration/init.el "$RUNNER_TEMP/spacemacs.d/init.el"
       - name: Install layer packages and run smoke tests
         env:
