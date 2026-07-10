@@ -1,0 +1,111 @@
+#+TITLE: Spacemacs Agentic Systems layer
+
+An opinionated Spacemacs layer for agentic software development: portable AI
+coding workflows, ACP agents, cross-agent review, and durable session recall.
+
+* Packages
+
+Enabled by default:
+
+- [[https://github.com/tninja/ai-code-interface.el][ai-code]]: backend-independent coding actions, context, TDD, review, handoffs,
+  and Emacs MCP tools.
+- [[https://github.com/xenodium/agent-shell][agent-shell]] and [[https://github.com/xenodium/acp.el][acp.el]]: native Emacs interaction with ACP agents.
+- [[https://github.com/nineluj/agent-review][agent-review]]: structured cross-agent review of Git changes.
+- [[https://github.com/Marx-A00/agent-recall][agent-recall]]: index, search, browse, and resume Agent Shell transcripts.
+
+Opt-in extensions:
+
+- [[https://github.com/jethrokuan/agent-shell-manager][agent-shell-manager]]: tabulated monitoring and management of many agents.
+- [[https://github.com/gveres/agent-shell-workspace][agent-shell-workspace]]: isolated tab-bar workspace with sidebar and tiling.
+- [[https://github.com/lllShamanlll/agent-shell-org-transcript][agent-shell-org-transcript]]: Org/org-roam transcripts.
+- [[https://github.com/eddof13/ob-agent-shell][ob-agent-shell]]: execute Agent Shell prompts from Org Babel blocks.
+- [[https://github.com/ElleNajt/meta-agent-shell][meta-agent-shell]]: experimental multi-agent dispatch and coordination.
+
+General LLM clients are deliberately out of scope. Use Spacemacs's existing
+=llm-client= layer for gptel, gptel-agent, and Ellama.
+
+* Requirements
+
+- Emacs 29.1 or newer
+- Spacemacs =develop=
+- MELPA enabled (the Spacemacs default)
+- At least one supported agent CLI or ACP adapter
+
+AI Code's native terminal backends also require a configured terminal package
+such as vterm, eat, or ghostel. The default configuration here instead routes
+AI Code through Agent Shell.
+
+* Installation
+
+Clone the repository as a private Spacemacs layer:
+
+#+begin_src shell
+git clone https://github.com/vv111y/spacemacs-agentic \
+  ~/.emacs.d/private/agentic-systems
+#+end_src
+
+Then add it to =dotspacemacs-configuration-layers=:
+
+#+begin_src emacs-lisp
+(agentic-systems :variables
+                 agentic-systems-ai-code-backend 'agent-shell
+                 agentic-systems-agent-recall-search-paths
+                 '("~/src" "~/projects"))
+#+end_src
+
+Restart Spacemacs or run =SPC f e R=.
+
+Agent Shell still needs an agent runtime. Consult its [[https://github.com/xenodium/agent-shell#setup][setup guide]] for Codex,
+Claude Code, Gemini CLI, OpenCode, Goose, Qwen, and other ACP agents.
+
+* Optional features
+
+#+begin_src emacs-lisp
+(agentic-systems :variables
+                 agentic-systems-enable-agent-shell-manager t
+                 agentic-systems-enable-org-transcripts t
+                 agentic-systems-org-transcript-directory
+                 "~/org/agent-transcripts/"
+                 agentic-systems-enable-org-babel t)
+#+end_src
+
+The manager and tab-bar workspace overlap. Enable one initially. The workspace
+may also overlap with Spacemacs perspectives.
+
+=meta-agent-shell= is experimental and performs additional external setup. Read
+its upstream instructions before enabling it:
+
+#+begin_src emacs-lisp
+(agentic-systems :variables
+                 agentic-systems-enable-meta-agent-shell t)
+#+end_src
+
+* Key bindings
+
+| Binding | Command |
+|---------+---------|
+| =SPC $ a a= | AI Code menu |
+| =SPC $ a b= | Select AI Code backend |
+| =SPC $ s s= | Start or reuse Agent Shell |
+| =SPC $ s n= | Start a new Agent Shell |
+| =SPC $ s t= | Toggle Agent Shell |
+| =SPC $ s h= | Agent Shell help menu |
+| =SPC $ s l= | View ACP traffic |
+| =SPC $ r= | Review Git changes with another agent |
+| =SPC $ h s= | Search transcripts |
+| =SPC $ h b= | Browse transcripts |
+| =SPC $ h r= | Resume a transcript session |
+| =SPC $ h i= | Rebuild the transcript index |
+| =SPC $ m= | Toggle Agent Shell manager (optional) |
+| =SPC $ w= | Toggle Agent Shell workspace (optional) |
+
+* External companions
+
+These are intentionally documented rather than installed as Emacs packages:
+
+- [[https://github.com/Embedded-Focus/agent-circus][agent-circus]] runs ACP agents in sandboxed Docker containers.
+- [[https://github.com/xenodium/emacs-skills][emacs-skills]] provides agent skills for operating Emacs.
+
+* License
+
+GPL-3.0-or-later. Package dependencies retain their own licenses.
