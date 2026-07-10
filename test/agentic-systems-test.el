@@ -79,11 +79,7 @@
 
 (ert-deftest agentic-systems-github-recipes-are-pinned-to-expected-repositories ()
   (let ((expected
-         '((ai-code . "tninja/ai-code-interface.el")
-           (acp . "xenodium/acp.el")
-           (agent-shell . "xenodium/agent-shell")
-           (agent-review . "nineluj/agent-review")
-           (agent-recall . "Marx-A00/agent-recall")
+         '((agent-review . "nineluj/agent-review")
            (agent-shell-manager . "jethrokuan/agent-shell-manager")
            (agent-shell-workspace . "gveres/agent-shell-workspace")
            (agent-shell-org-transcript
@@ -112,7 +108,7 @@
     (sort (mapcar #'agentic-systems-test--package-name
                   spacemacs-agentic-packages)
           #'string-lessp)))
-  (dolist (key '("$aa" "$ss" "$r" "$hs" "$m" "$w" "$o" "$MM"))
+  (dolist (key '("$a" "$ss" "$r" "$hs" "$m" "$w" "$o" "$MM"))
     (should (assoc key agentic-systems-test--leader-bindings))))
 
 ;;; agentic-systems-test.el ends here
