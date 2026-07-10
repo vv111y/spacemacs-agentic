@@ -65,15 +65,15 @@
   (should (equal agentic-systems-test--dependencies '(git org))))
 
 (ert-deftest agentic-systems-owns-every-declared-package ()
-  (dolist (specification agentic-systems-packages)
+  (dolist (specification spacemacs-agentic-packages)
     (let* ((package (agentic-systems-test--package-name specification))
            (initializer
-            (intern (format "agentic-systems/init-%s" package))))
+            (intern (format "spacemacs-agentic/init-%s" package))))
       (should (fboundp initializer)))))
 
 (ert-deftest agentic-systems-keeps-general-llm-clients-out-of-scope ()
   (let ((packages (mapcar #'agentic-systems-test--package-name
-                          agentic-systems-packages)))
+                          spacemacs-agentic-packages)))
     (dolist (package '(gptel gptel-agent ellama mcp))
       (should-not (memq package packages)))))
 
@@ -87,7 +87,7 @@
            (ob-agent-shell . "eddof13/ob-agent-shell")
            (meta-agent-shell . "ElleNajt/meta-agent-shell"))))
     (dolist (entry expected)
-      (let* ((specification (assq (car entry) agentic-systems-packages))
+      (let* ((specification (assq (car entry) spacemacs-agentic-packages))
              (location (plist-get (cdr specification) :location)))
         (should (eq (car location) 'recipe))
         (should (eq (plist-get (cdr location) :fetcher) 'github))
@@ -96,17 +96,17 @@
 (ert-deftest agentic-systems-initializers-register-packages-and-unique-bindings ()
   (setq agentic-systems-test--initialized-packages nil
         agentic-systems-test--leader-bindings nil)
-  (dolist (specification agentic-systems-packages)
+  (dolist (specification spacemacs-agentic-packages)
     (funcall
      (intern
-      (format "agentic-systems/init-%s"
+      (format "spacemacs-agentic/init-%s"
               (agentic-systems-test--package-name specification)))))
   (should
    (equal
     (sort (copy-sequence agentic-systems-test--initialized-packages)
           #'string-lessp)
     (sort (mapcar #'agentic-systems-test--package-name
-                  agentic-systems-packages)
+                  spacemacs-agentic-packages)
           #'string-lessp)))
   (dolist (key '("$aa" "$ss" "$r" "$hs" "$m" "$w" "$o" "$MM"))
     (should (assoc key agentic-systems-test--leader-bindings))))
