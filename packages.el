@@ -4,24 +4,14 @@
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
 (defconst spacemacs-agentic-packages
-  '((ai-code
-     :toggle agentic-systems-enable-ai-code
-     :location (recipe :fetcher github :repo "tninja/ai-code-interface.el"
-                       :files (:defaults "snippets"
-                                         ("prompt" "prompt/*.md"))))
-    (acp
-     :toggle agentic-systems-enable-agent-shell
-     :location (recipe :fetcher github :repo "xenodium/acp.el"))
-    (agent-shell
-     :toggle agentic-systems-enable-agent-shell
-     :location (recipe :fetcher github :repo "xenodium/agent-shell"))
+  '((ai-code :toggle agentic-systems-enable-ai-code)
+    (acp :toggle agentic-systems-enable-agent-shell)
+    (agent-shell :toggle agentic-systems-enable-agent-shell)
     (agent-review
      :toggle agentic-systems-enable-agent-review
      :location (recipe :fetcher github :repo "nineluj/agent-review"
                        :files ("*.el")))
-    (agent-recall
-     :toggle agentic-systems-enable-agent-recall
-     :location (recipe :fetcher github :repo "Marx-A00/agent-recall"))
+    (agent-recall :toggle agentic-systems-enable-agent-recall)
     (agent-shell-manager
      :toggle agentic-systems-enable-agent-shell-manager
      :location (recipe :fetcher github :repo "jethrokuan/agent-shell-manager"
@@ -51,10 +41,8 @@
     :commands (ai-code-menu ai-code-select-backend)
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/declare-prefix "$a" "AI Code")
     (spacemacs/set-leader-keys
-      "$aa" #'ai-code-menu
-      "$ab" #'ai-code-select-backend)
+      "$a" #'ai-code-menu)
     :config
     (when agentic-systems-ai-code-backend
       (ai-code-set-backend agentic-systems-ai-code-backend))))
