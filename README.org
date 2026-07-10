@@ -26,6 +26,10 @@ Opt-in extensions:
 General LLM clients are deliberately out of scope. Use Spacemacs's existing
 =llm-client= layer for gptel, gptel-agent, and Ellama.
 
+The agent packages are fetched directly from their upstream Git repositories.
+This avoids stale references to MELPA's frequently rotated snapshot tarballs;
+normal package dependencies still come from the configured ELPA archives.
+
 * Requirements
 
 - Emacs 29.1 or newer
