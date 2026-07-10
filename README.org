@@ -26,10 +26,6 @@ Opt-in extensions:
 General LLM clients are deliberately out of scope. Use Spacemacs's existing
 =llm-client= layer for gptel, gptel-agent, and Ellama.
 
-The agent packages are fetched directly from their upstream Git repositories.
-This avoids stale references to MELPA's frequently rotated snapshot tarballs;
-normal package dependencies still come from the configured ELPA archives.
-
 * Requirements
 
 - Emacs 29.1 or newer
@@ -90,8 +86,7 @@ its upstream instructions before enabling it:
 
 | Binding | Command |
 |---------+---------|
-| =SPC $ a a= | AI Code menu |
-| =SPC $ a b= | Select AI Code backend |
+| =SPC $ a= | AI Code menu (including backend selection) |
 | =SPC $ s s= | Start or reuse Agent Shell |
 | =SPC $ s n= | Start a new Agent Shell |
 | =SPC $ s t= | Toggle Agent Shell |
@@ -124,6 +119,20 @@ GitHub Actions runs those tests on Emacs 29.4 and 30.2. A separate integration
 job checks out Spacemacs =develop=, installs the default layer packages in an
 isolated Spacemacs configuration, loads them, and verifies the public entry
 points without launching an external agent runtime.
+
+** Stale MELPA metadata
+
+If installation requests a dated MELPA tarball that returns =Not found=, run
+=M-x package-refresh-contents= and then synchronize the configuration layers
+again. MELPA snapshot filenames change frequently, so an old local
+=archive-contents= file can reference a tarball that has already been replaced.
+
+** Missing Quelpa recipe store
+
+Packages unavailable from MELPA are built from their upstream repositories by
+Spacemacs's bundled Quelpa. If Quelpa reports that =quelpa/melpa/recipes= does
+not exist, evaluate =(quelpa-checkout-melpa t)= and synchronize the layers
+again. This recreates Quelpa's standard local MELPA recipe checkout.
 
 * License
 
