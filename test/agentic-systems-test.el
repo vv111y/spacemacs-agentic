@@ -79,7 +79,11 @@
 
 (ert-deftest agentic-systems-github-recipes-are-pinned-to-expected-repositories ()
   (let ((expected
-         '((agent-review . "nineluj/agent-review")
+         '((ai-code . "tninja/ai-code-interface.el")
+           (acp . "xenodium/acp.el")
+           (agent-shell . "xenodium/agent-shell")
+           (agent-review . "nineluj/agent-review")
+           (agent-recall . "Marx-A00/agent-recall")
            (agent-shell-manager . "jethrokuan/agent-shell-manager")
            (agent-shell-workspace . "gveres/agent-shell-workspace")
            (agent-shell-org-transcript
