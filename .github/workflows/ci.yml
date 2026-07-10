@@ -4,14 +4,53 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
-  syntax:
+  unit:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        emacs_version: [29.4, 30.2]
     steps:
       - uses: actions/checkout@v4
-      - name: Install Emacs
+      - uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs_version }}
+      - name: Syntax and unit tests
+        run: make test
+
+  spacemacs-integration:
+    runs-on: ubuntu-latest
+    needs: unit
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: purcell/setup-emacs@master
+        with:
+          version: 30.2
+      - uses: actions/checkout@v4
+        with:
+          repository: syl20bnr/spacemacs
+          ref: develop
+          path: vendor/spacemacs
+      - name: Prepare isolated Spacemacs installation
         run: |
-          sudo apt-get update
-          sudo apt-get install --yes emacs-nox
-      - name: Parse layer files
-        run: emacs -Q --batch -l test/check-syntax.el
+          mkdir -p "$RUNNER_TEMP/home" "$RUNNER_TEMP/spacemacs.d"
+          ln -s "$GITHUB_WORKSPACE/vendor/spacemacs" \
+            "$RUNNER_TEMP/home/.emacs.d"
+          mkdir -p "$GITHUB_WORKSPACE/vendor/spacemacs/private/agentic-systems"
+          cp config.el layers.el packages.el README.org \
+            "$GITHUB_WORKSPACE/vendor/spacemacs/private/agentic-systems/"
+          cp test/integration/init.el "$RUNNER_TEMP/spacemacs.d/init.el"
+      - name: Install layer packages and run smoke tests
+        env:
+          HOME: ${{ runner.temp }}/home
+          SPACEMACSDIR: ${{ runner.temp }}/spacemacs.d
+        run: |
+          emacs -Q --batch \
+            --eval '(setq package-check-signature nil)' \
+            -l "$HOME/.emacs.d/init.el" \
+            -l "$GITHUB_WORKSPACE/test/integration/smoke.el"
