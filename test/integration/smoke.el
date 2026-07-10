@@ -5,7 +5,7 @@
 (require 'ert)
 
 (ert-deftest agentic-systems-layer-is-enabled ()
-  (should (configuration-layer/layer-used-p 'agentic-systems)))
+  (should (configuration-layer/layer-used-p 'spacemacs-agentic)))
 
 (ert-deftest agentic-systems-default-packages-are-installed ()
   (dolist (package '(ai-code acp agent-shell agent-review agent-recall))
