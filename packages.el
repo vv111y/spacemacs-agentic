@@ -3,7 +3,7 @@
 ;; Copyright (C) 2026 Willy Rempel
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
-(defconst agentic-systems-packages
+(defconst spacemacs-agentic-packages
   '((ai-code :toggle agentic-systems-enable-ai-code)
     (acp :toggle agentic-systems-enable-agent-shell)
     (agent-shell :toggle agentic-systems-enable-agent-shell)
@@ -34,7 +34,7 @@
      :location (recipe :fetcher github :repo "ElleNajt/meta-agent-shell"
                        :files ("*.el")))))
 
-(defun agentic-systems/init-ai-code ()
+(defun spacemacs-agentic/init-ai-code ()
   "Initialize `ai-code'."
   (use-package ai-code
     :defer t
@@ -49,12 +49,12 @@
     (when agentic-systems-ai-code-backend
       (ai-code-set-backend agentic-systems-ai-code-backend))))
 
-(defun agentic-systems/init-acp ()
+(defun spacemacs-agentic/init-acp ()
   "Initialize `acp'."
   (use-package acp
     :defer t))
 
-(defun agentic-systems/init-agent-shell ()
+(defun spacemacs-agentic/init-agent-shell ()
   "Initialize `agent-shell'."
   (use-package agent-shell
     :defer t
@@ -70,7 +70,7 @@
       "$sh" #'agent-shell-help-menu
       "$sl" #'agent-shell-view-traffic)))
 
-(defun agentic-systems/init-agent-review ()
+(defun spacemacs-agentic/init-agent-review ()
   "Initialize `agent-review'."
   (use-package agent-review
     :defer t
@@ -79,7 +79,7 @@
     (spacemacs/declare-prefix "$" "AI")
     (spacemacs/set-leader-keys "$r" #'agent-review)))
 
-(defun agentic-systems/init-agent-recall ()
+(defun spacemacs-agentic/init-agent-recall ()
   "Initialize `agent-recall'."
   (use-package agent-recall
     :defer t
@@ -102,7 +102,7 @@
       (setq agent-recall-search-paths
             agentic-systems-agent-recall-search-paths))))
 
-(defun agentic-systems/init-agent-shell-manager ()
+(defun spacemacs-agentic/init-agent-shell-manager ()
   "Initialize `agent-shell-manager'."
   (use-package agent-shell-manager
     :defer t
@@ -111,7 +111,7 @@
     (spacemacs/declare-prefix "$" "AI")
     (spacemacs/set-leader-keys "$m" #'agent-shell-manager-toggle)))
 
-(defun agentic-systems/init-agent-shell-workspace ()
+(defun spacemacs-agentic/init-agent-shell-workspace ()
   "Initialize `agent-shell-workspace'."
   (use-package agent-shell-workspace
     :defer t
@@ -120,7 +120,7 @@
     (spacemacs/declare-prefix "$" "AI")
     (spacemacs/set-leader-keys "$w" #'agent-shell-workspace-toggle)))
 
-(defun agentic-systems/init-agent-shell-org-transcript ()
+(defun spacemacs-agentic/init-agent-shell-org-transcript ()
   "Initialize `agent-shell-org-transcript'."
   (use-package agent-shell-org-transcript
     :defer t
@@ -133,7 +133,7 @@
       (setq agent-shell-org-transcript-directory
             agentic-systems-org-transcript-directory))))
 
-(defun agentic-systems/init-ob-agent-shell ()
+(defun spacemacs-agentic/init-ob-agent-shell ()
   "Initialize `ob-agent-shell'."
   (use-package ob-agent-shell
     :defer t
@@ -142,7 +142,7 @@
       (add-to-list 'org-babel-load-languages '(agent-shell . t))
       (add-to-list 'org-src-lang-modes '("agent-shell" . text)))))
 
-(defun agentic-systems/init-meta-agent-shell ()
+(defun spacemacs-agentic/init-meta-agent-shell ()
   "Initialize `meta-agent-shell'."
   (use-package meta-agent-shell
     :defer t
