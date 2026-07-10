@@ -4,14 +4,24 @@
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
 (defconst spacemacs-agentic-packages
-  '((ai-code :toggle agentic-systems-enable-ai-code)
-    (acp :toggle agentic-systems-enable-agent-shell)
-    (agent-shell :toggle agentic-systems-enable-agent-shell)
+  '((ai-code
+     :toggle agentic-systems-enable-ai-code
+     :location (recipe :fetcher github :repo "tninja/ai-code-interface.el"
+                       :files (:defaults "snippets"
+                                         ("prompt" "prompt/*.md"))))
+    (acp
+     :toggle agentic-systems-enable-agent-shell
+     :location (recipe :fetcher github :repo "xenodium/acp.el"))
+    (agent-shell
+     :toggle agentic-systems-enable-agent-shell
+     :location (recipe :fetcher github :repo "xenodium/agent-shell"))
     (agent-review
      :toggle agentic-systems-enable-agent-review
      :location (recipe :fetcher github :repo "nineluj/agent-review"
                        :files ("*.el")))
-    (agent-recall :toggle agentic-systems-enable-agent-recall)
+    (agent-recall
+     :toggle agentic-systems-enable-agent-recall
+     :location (recipe :fetcher github :repo "Marx-A00/agent-recall"))
     (agent-shell-manager
      :toggle agentic-systems-enable-agent-shell-manager
      :location (recipe :fetcher github :repo "jethrokuan/agent-shell-manager"
