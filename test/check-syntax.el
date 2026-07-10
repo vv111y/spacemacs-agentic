@@ -4,7 +4,7 @@
 
 (let* ((test-directory (file-name-directory (or load-file-name buffer-file-name)))
        (root (expand-file-name ".." test-directory))
-       (files (directory-files root t "\\.el\\'")))
+       (files (directory-files-recursively root "\\.el\\'")))
   (dolist (file files)
     (with-temp-buffer
       (insert-file-contents file)
