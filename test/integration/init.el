@@ -7,7 +7,7 @@
   (setq-default
    dotspacemacs-distribution 'spacemacs-base
    dotspacemacs-configuration-layers
-   '((agentic-systems
+   '((spacemacs-agentic
       :variables
       agentic-systems-ai-code-backend 'agent-shell))))
 
