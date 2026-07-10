@@ -43,13 +43,13 @@ Clone the repository as a private Spacemacs layer:
 
 #+begin_src shell
 git clone https://github.com/vv111y/spacemacs-agentic \
-  ~/.emacs.d/private/agentic-systems
+  ~/.emacs.d/private/spacemacs-agentic
 #+end_src
 
 Then add it to =dotspacemacs-configuration-layers=:
 
 #+begin_src emacs-lisp
-(agentic-systems :variables
+(spacemacs-agentic :variables
                  agentic-systems-ai-code-backend 'agent-shell
                  agentic-systems-agent-recall-search-paths
                  '("~/src" "~/projects"))
@@ -63,7 +63,7 @@ Claude Code, Gemini CLI, OpenCode, Goose, Qwen, and other ACP agents.
 * Optional features
 
 #+begin_src emacs-lisp
-(agentic-systems :variables
+(spacemacs-agentic :variables
                  agentic-systems-enable-agent-shell-manager t
                  agentic-systems-enable-org-transcripts t
                  agentic-systems-org-transcript-directory
@@ -78,7 +78,7 @@ may also overlap with Spacemacs perspectives.
 its upstream instructions before enabling it:
 
 #+begin_src emacs-lisp
-(agentic-systems :variables
+(spacemacs-agentic :variables
                  agentic-systems-enable-meta-agent-shell t)
 #+end_src
 
