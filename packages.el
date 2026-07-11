@@ -67,7 +67,10 @@
       "$sn" #'agent-shell-new-shell
       "$st" #'agent-shell-toggle
       "$sh" #'agent-shell-help-menu
-      "$sl" #'agent-shell-view-traffic)))
+      "$sl" #'agent-shell-view-traffic)
+    :config
+    (evil-define-key 'motion agent-shell-mode-map
+      (kbd "C-<tab>") #'agent-shell-cycle-session-mode)))
 
 (defun spacemacs-agentic/init-agent-review ()
   "Initialize `agent-review'."
