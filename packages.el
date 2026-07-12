@@ -41,9 +41,8 @@
     :commands (ai-code-menu ai-code-select-backend)
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/declare-prefix "$A" "Agentic systems")
     (spacemacs/set-leader-keys
-      "$Aa" #'ai-code-menu)
+      "$A" #'ai-code-menu)
     :config
     (when agentic-systems-ai-code-backend
       (ai-code-set-backend agentic-systems-ai-code-backend))))
