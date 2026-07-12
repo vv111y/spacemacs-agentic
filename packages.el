@@ -110,7 +110,7 @@
     :commands agent-shell-manager-toggle
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/set-leader-keys "$m" #'agent-shell-manager-toggle)))
+    (spacemacs/set-leader-keys "$sm" #'agent-shell-manager-toggle)))
 
 (defun spacemacs-agentic/init-agent-shell-workspace ()
   "Initialize `agent-shell-workspace'."
@@ -119,7 +119,7 @@
     :commands agent-shell-workspace-toggle
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/set-leader-keys "$w" #'agent-shell-workspace-toggle)))
+    (spacemacs/set-leader-keys "$sw" #'agent-shell-workspace-toggle)))
 
 (defun spacemacs-agentic/init-agent-shell-org-transcript ()
   "Initialize `agent-shell-org-transcript'."
@@ -128,7 +128,7 @@
     :commands agent-shell-org-transcript-migrate
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/set-leader-keys "$o" #'agent-shell-org-transcript-migrate)
+    (spacemacs/set-leader-keys "$so" #'agent-shell-org-transcript-migrate)
     :config
     (when agentic-systems-org-transcript-directory
       (setq agent-shell-org-transcript-directory
