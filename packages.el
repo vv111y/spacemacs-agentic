@@ -55,7 +55,16 @@
       "$Aa" #'ai-code-menu)
     :config
     (when agentic-systems-ai-code-backend
-      (ai-code-set-backend agentic-systems-ai-code-backend))))
+      (ai-code-set-backend agentic-systems-ai-code-backend))
+    (when agentic-systems-enable-ai-code-evil
+      (with-eval-after-load 'evil
+        (ai-code-backends-infra-evil-setup)))
+    (when agentic-systems-enable-ai-code-magit
+      (with-eval-after-load 'magit
+        (ai-code-magit-setup-transients)))
+    (when agentic-systems-enable-ai-code-auto-revert
+      (global-auto-revert-mode 1)
+      (setq auto-revert-interval 1))))
 
 (defun spacemacs-agentic/init-acp ()
   "Initialize `acp'."
