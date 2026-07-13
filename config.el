@@ -12,6 +12,24 @@
   :type 'boolean
   :group 'agentic-systems)
 
+(defcustom agentic-systems-enable-ai-code-evil nil
+  "When non-nil, bind SPC in Evil normal state in AI session buffers."
+  :type 'boolean
+  :group 'agentic-systems)
+
+(defcustom agentic-systems-enable-ai-code-magit nil
+  "When non-nil, add AI Code commands to Magit popups."
+  :type 'boolean
+  :group 'agentic-systems)
+
+(defcustom agentic-systems-enable-ai-code-auto-revert nil
+  "When non-nil, use one-second global auto-revert for AI file changes.
+
+Spacemacs normally configures auto-revert already; this option only changes
+that behavior when explicitly enabled."
+  :type 'boolean
+  :group 'agentic-systems)
+
 (defcustom agentic-systems-enable-agent-shell t
   "When non-nil, enable `agent-shell' and its ACP dependency."
   :type 'boolean
