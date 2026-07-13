@@ -15,6 +15,17 @@ Enabled by default:
 - [[https://github.com/nineluj/agent-review][agent-review]]: structured cross-agent review of Git changes.
 - [[https://github.com/Marx-A00/agent-recall][agent-recall]]: index, search, browse, and resume Agent Shell transcripts.
 
+Optional backend integrations:
+
+- =eca=: ECA (Editor Code Assistant), enabled with
+  =agentic-systems-enable-eca=.
+- =claude-code.el=: direct Claude Code CLI integration, enabled with
+  =agentic-systems-enable-claude-code=.
+- =claude-code-ide.el=: experimental Emacs-aware Claude Code integration,
+  enabled with =agentic-systems-enable-claude-code-ide=. This overlaps with
+  Spacemacs's existing =Claude Code= layer, which also installs
+  =claude-code-ide.el=; enable one owner or the other.
+
 Opt-in extensions:
 
 - [[https://github.com/jethrokuan/agent-shell-manager][agent-shell-manager]]: tabulated monitoring and management of many agents.
@@ -84,21 +95,27 @@ its upstream instructions before enabling it:
 
 * Key bindings
 
+All commands live below the dedicated =SPC $ A= prefix so this layer can
+coexist with Spacemacs's Aider bindings at =SPC $ a=.
+
 | Binding | Command |
 |---------+---------|
-| =SPC $ a= | AI Code menu (including backend selection) |
-| =SPC $ s s= | Start or reuse Agent Shell |
-| =SPC $ s n= | Start a new Agent Shell |
-| =SPC $ s t= | Toggle Agent Shell |
-| =SPC $ s h= | Agent Shell help menu |
-| =SPC $ s l= | View ACP traffic |
-| =SPC $ r= | Review Git changes with another agent |
-| =SPC $ h s= | Search transcripts |
-| =SPC $ h b= | Browse transcripts |
-| =SPC $ h r= | Resume a transcript session |
-| =SPC $ h i= | Rebuild the transcript index |
-| =SPC $ m= | Toggle Agent Shell manager (optional) |
-| =SPC $ w= | Toggle Agent Shell workspace (optional) |
+| =SPC $ A a= | AI Code menu (including backend selection) |
+| =SPC $ A e= | ECA (optional) |
+| =SPC $ A c= | Claude Code (optional) |
+| =SPC $ A i= | Claude Code IDE (experimental/optional) |
+| =SPC $ A s s= | Start or reuse Agent Shell |
+| =SPC $ A s n= | Start a new Agent Shell |
+| =SPC $ A s t= | Toggle Agent Shell |
+| =SPC $ A s h= | Agent Shell help menu |
+| =SPC $ A s l= | View ACP traffic |
+| =SPC $ A r= | Review Git changes with another agent |
+| =SPC $ A h s= | Search transcripts |
+| =SPC $ A h b= | Browse transcripts |
+| =SPC $ A h r= | Resume a transcript session |
+| =SPC $ A h i= | Rebuild the transcript index |
+| =SPC $ A m= | Toggle Agent Shell manager (optional) |
+| =SPC $ A w= | Toggle Agent Shell workspace (optional) |
 
 * External companions
 
