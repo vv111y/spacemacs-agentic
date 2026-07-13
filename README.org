@@ -26,6 +26,15 @@ Optional backend integrations:
   Spacemacs's existing =Claude Code= layer, which also installs
   =claude-code-ide.el=; enable one owner or the other.
 
+Optional AI Code integrations:
+
+- =agentic-systems-enable-ai-code-evil=: use SPC in Evil normal state as the
+  AI prompt-entry key in AI session buffers.
+- =agentic-systems-enable-ai-code-magit=: add AI commands to Magit popups.
+- =agentic-systems-enable-ai-code-auto-revert=: force global auto-revert with
+  a one-second interval. Spacemacs normally configures auto-revert already,
+  so this is disabled unless explicitly requested.
+
 Opt-in extensions:
 
 - [[https://github.com/jethrokuan/agent-shell-manager][agent-shell-manager]]: tabulated monitoring and management of many agents.
