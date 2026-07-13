@@ -51,6 +51,9 @@
 
 (ert-deftest agentic-systems-defaults-are-coherent ()
   (should agentic-systems-enable-ai-code)
+  (should-not agentic-systems-enable-ai-code-evil)
+  (should-not agentic-systems-enable-ai-code-magit)
+  (should-not agentic-systems-enable-ai-code-auto-revert)
   (should agentic-systems-enable-agent-shell)
   (should-not agentic-systems-enable-eca)
   (should-not agentic-systems-enable-claude-code)
