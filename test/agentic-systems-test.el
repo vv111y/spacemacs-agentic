@@ -52,6 +52,9 @@
 (ert-deftest agentic-systems-defaults-are-coherent ()
   (should agentic-systems-enable-ai-code)
   (should agentic-systems-enable-agent-shell)
+  (should-not agentic-systems-enable-eca)
+  (should-not agentic-systems-enable-claude-code)
+  (should-not agentic-systems-enable-claude-code-ide)
   (should agentic-systems-enable-agent-review)
   (should agentic-systems-enable-agent-recall)
   (should-not agentic-systems-enable-agent-shell-manager)
@@ -108,7 +111,12 @@
     (sort (mapcar #'agentic-systems-test--package-name
                   spacemacs-agentic-packages)
           #'string-lessp)))
-  (dolist (key '("$a" "$ss" "$r" "$hs" "$m" "$w" "$o" "$MM"))
-    (should (assoc key agentic-systems-test--leader-bindings))))
+  (dolist (key '("$Aa" "$Ass" "$Ae" "$Ac" "$Ai" "$Ar" "$Ahs"
+                 "$Am" "$Aw" "$Ao" "$AMM"))
+    (should (assoc key agentic-systems-test--leader-bindings)))
+  ;; The existing Spacemacs Aider layer owns `$a' as a prefix.  Keep every
+  ;; command in this layer below the distinct `$A' prefix so both can load.
+  (dolist (binding agentic-systems-test--leader-bindings)
+    (should (string-prefix-p "$A" (car binding)))))
 
 ;;; agentic-systems-test.el ends here
