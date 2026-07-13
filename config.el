@@ -17,6 +17,23 @@
   :type 'boolean
   :group 'agentic-systems)
 
+(defcustom agentic-systems-enable-eca nil
+  "When non-nil, enable ECA (Editor Code Assistant)."
+  :type 'boolean
+  :group 'agentic-systems)
+
+(defcustom agentic-systems-enable-claude-code nil
+  "When non-nil, enable the `claude-code.el' integration."
+  :type 'boolean
+  :group 'agentic-systems)
+
+(defcustom agentic-systems-enable-claude-code-ide nil
+  "When non-nil, enable `claude-code-ide.el'.
+
+This is experimental and overlaps with Spacemacs's Claude Code layer."
+  :type 'boolean
+  :group 'agentic-systems)
+
 (defcustom agentic-systems-enable-agent-review t
   "When non-nil, enable structured cross-agent code review."
   :type 'boolean
