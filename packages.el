@@ -7,6 +7,15 @@
   '((ai-code :toggle agentic-systems-enable-ai-code)
     (acp :toggle agentic-systems-enable-agent-shell)
     (agent-shell :toggle agentic-systems-enable-agent-shell)
+    (eca :toggle agentic-systems-enable-eca)
+    (claude-code
+     :toggle agentic-systems-enable-claude-code
+     :location (recipe :fetcher github :repo "stevemolitor/claude-code.el"
+                       :files ("claude-code.el")))
+    (claude-code-ide
+     :toggle agentic-systems-enable-claude-code-ide
+     :location (recipe :fetcher github :repo "manzaltu/claude-code-ide.el"
+                       :files ("*.el")))
     (agent-review
      :toggle agentic-systems-enable-agent-review
      :location (recipe :fetcher github :repo "nineluj/agent-review"
@@ -41,8 +50,9 @@
     :commands (ai-code-menu ai-code-select-backend)
     :init
     (spacemacs/declare-prefix "$" "AI")
+    (spacemacs/declare-prefix "$A" "Agentic systems")
     (spacemacs/set-leader-keys
-      "$A" #'ai-code-menu)
+      "$Aa" #'ai-code-menu)
     :config
     (when agentic-systems-ai-code-backend
       (ai-code-set-backend agentic-systems-ai-code-backend))))
@@ -52,6 +62,33 @@
   (use-package acp
     :defer t))
 
+(defun spacemacs-agentic/init-eca ()
+  "Initialize ECA (Editor Code Assistant)."
+  (use-package eca
+    :defer t
+    :commands eca
+    :init
+    (spacemacs/declare-prefix "$A" "Agentic systems")
+    (spacemacs/set-leader-keys "$Ae" #'eca)))
+
+(defun spacemacs-agentic/init-claude-code ()
+  "Initialize `claude-code.el'."
+  (use-package claude-code
+    :defer t
+    :commands claude-code
+    :init
+    (spacemacs/declare-prefix "$A" "Agentic systems")
+    (spacemacs/set-leader-keys "$Ac" #'claude-code)))
+
+(defun spacemacs-agentic/init-claude-code-ide ()
+  "Initialize experimental `claude-code-ide.el'."
+  (use-package claude-code-ide
+    :defer t
+    :commands claude-code-ide
+    :init
+    (spacemacs/declare-prefix "$A" "Agentic systems")
+    (spacemacs/set-leader-keys "$Ai" #'claude-code-ide)))
+
 (defun spacemacs-agentic/init-agent-shell ()
   "Initialize `agent-shell'."
   (use-package agent-shell
@@ -60,13 +97,14 @@
                            agent-shell-help-menu agent-shell-view-traffic)
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/declare-prefix "$s" "Agent Shell")
+    (spacemacs/declare-prefix "$A" "Agentic systems")
+    (spacemacs/declare-prefix "$As" "Agent Shell")
     (spacemacs/set-leader-keys
-      "$ss" #'agent-shell
-      "$sn" #'agent-shell-new-shell
-      "$st" #'agent-shell-toggle
-      "$sh" #'agent-shell-help-menu
-      "$sl" #'agent-shell-view-traffic)
+      "$Ass" #'agent-shell
+      "$Asn" #'agent-shell-new-shell
+      "$Ast" #'agent-shell-toggle
+      "$Ash" #'agent-shell-help-menu
+      "$Asl" #'agent-shell-view-traffic)
     :config
     (evil-define-key 'motion agent-shell-mode-map
       (kbd "C-<tab>") #'agent-shell-cycle-session-mode)))
@@ -78,7 +116,8 @@
     :commands agent-review
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/set-leader-keys "$r" #'agent-review)))
+    (spacemacs/declare-prefix "$A" "Agentic systems")
+    (spacemacs/set-leader-keys "$Ar" #'agent-review)))
 
 (defun spacemacs-agentic/init-agent-recall ()
   "Initialize `agent-recall'."
@@ -89,13 +128,14 @@
                                    agent-recall-track-sessions)
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/declare-prefix "$h" "Agent history")
+    (spacemacs/declare-prefix "$A" "Agentic systems")
+    (spacemacs/declare-prefix "$Ah" "Agent history")
     (spacemacs/set-leader-keys
-      "$hs" #'agent-recall-search
-      "$hb" #'agent-recall-browse
-      "$hr" #'agent-recall-resume
-      "$hi" #'agent-recall-reindex
-      "$ht" #'agent-recall-stats)
+      "$Ahs" #'agent-recall-search
+      "$Ahb" #'agent-recall-browse
+      "$Ahr" #'agent-recall-resume
+      "$Ahi" #'agent-recall-reindex
+      "$Aht" #'agent-recall-stats)
     (when (configuration-layer/package-used-p 'agent-shell)
       (add-hook 'agent-shell-mode-hook #'agent-recall-track-sessions))
     :config
@@ -110,7 +150,8 @@
     :commands agent-shell-manager-toggle
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/set-leader-keys "$sm" #'agent-shell-manager-toggle)))
+    (spacemacs/declare-prefix "$A" "Agentic systems")
+    (spacemacs/set-leader-keys "$Am" #'agent-shell-manager-toggle)))
 
 (defun spacemacs-agentic/init-agent-shell-workspace ()
   "Initialize `agent-shell-workspace'."
@@ -119,7 +160,8 @@
     :commands agent-shell-workspace-toggle
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/set-leader-keys "$sw" #'agent-shell-workspace-toggle)))
+    (spacemacs/declare-prefix "$A" "Agentic systems")
+    (spacemacs/set-leader-keys "$Aw" #'agent-shell-workspace-toggle)))
 
 (defun spacemacs-agentic/init-agent-shell-org-transcript ()
   "Initialize `agent-shell-org-transcript'."
@@ -128,7 +170,8 @@
     :commands agent-shell-org-transcript-migrate
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/set-leader-keys "$so" #'agent-shell-org-transcript-migrate)
+    (spacemacs/declare-prefix "$A" "Agentic systems")
+    (spacemacs/set-leader-keys "$Ao" #'agent-shell-org-transcript-migrate)
     :config
     (when agentic-systems-org-transcript-directory
       (setq agent-shell-org-transcript-directory
@@ -155,13 +198,14 @@
                meta-agent-shell-big-red-button)
     :init
     (spacemacs/declare-prefix "$" "AI")
-    (spacemacs/declare-prefix "$M" "Meta agent")
+    (spacemacs/declare-prefix "$A" "Agentic systems")
+    (spacemacs/declare-prefix "$AM" "Meta agent")
     (spacemacs/set-leader-keys
-      "$MM" #'meta-agent-shell-start
-      "$Md" #'meta-agent-shell-jump-to-dispatcher
-      "$Mh" #'meta-agent-shell-heartbeat-start
-      "$MH" #'meta-agent-shell-heartbeat-stop
-      "$Ms" #'meta-agent-shell-heartbeat-send-now
-      "$M!" #'meta-agent-shell-big-red-button)))
+      "$AMM" #'meta-agent-shell-start
+      "$AMd" #'meta-agent-shell-jump-to-dispatcher
+      "$AMh" #'meta-agent-shell-heartbeat-start
+      "$AMH" #'meta-agent-shell-heartbeat-stop
+      "$AMs" #'meta-agent-shell-heartbeat-send-now
+      "$AM!" #'meta-agent-shell-big-red-button)))
 
 ;;; packages.el ends here
