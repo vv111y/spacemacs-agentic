@@ -14,6 +14,8 @@ Enabled by default:
 - [[https://github.com/xenodium/agent-shell][agent-shell]] and [[https://github.com/xenodium/acp.el][acp.el]]: native Emacs interaction with ACP agents.
 - [[https://github.com/nineluj/agent-review][agent-review]]: structured cross-agent review of Git changes.
 - [[https://github.com/Marx-A00/agent-recall][agent-recall]]: index, search, browse, and resume Agent Shell transcripts.
+- [[https://github.com/jethrokuan/agent-shell-manager][agent-shell-manager]]: tabulated monitoring and management of many agents.
+- [[https://github.com/gveres/agent-shell-workspace][agent-shell-workspace]]: dedicated agent workspace with a status sidebar and tiling.
 
 Optional backend integrations:
 
@@ -37,8 +39,6 @@ Optional AI Code integrations:
 
 Opt-in extensions:
 
-- [[https://github.com/jethrokuan/agent-shell-manager][agent-shell-manager]]: tabulated monitoring and management of many agents.
-- [[https://github.com/gveres/agent-shell-workspace][agent-shell-workspace]]: isolated tab-bar workspace with sidebar and tiling.
 - [[https://github.com/lllShamanlll/agent-shell-org-transcript][agent-shell-org-transcript]]: Org/org-roam transcripts.
 - [[https://github.com/eddof13/ob-agent-shell][ob-agent-shell]]: execute Agent Shell prompts from Org Babel blocks.
 - [[https://github.com/ElleNajt/meta-agent-shell][meta-agent-shell]]: experimental multi-agent dispatch and coordination.
@@ -84,15 +84,17 @@ Claude Code, Gemini CLI, OpenCode, Goose, Qwen, and other ACP agents.
 
 #+begin_src emacs-lisp
 (spacemacs-agentic :variables
-                 agentic-systems-enable-agent-shell-manager t
                  agentic-systems-enable-org-transcripts t
                  agentic-systems-org-transcript-directory
                  "~/org/agent-transcripts/"
                  agentic-systems-enable-org-babel t)
 #+end_src
 
-The manager and tab-bar workspace overlap. Enable one initially. The workspace
-may also overlap with Spacemacs perspectives.
+The manager and workspace are enabled together by default: the manager provides
+a compact tabulated overview, while the workspace provides a focused sidebar and
+tiled agent buffers. The workspace may overlap with Spacemacs perspectives; set
+=agentic-systems-enable-agent-shell-workspace= to =nil= if that becomes
+disruptive.
 
 =meta-agent-shell= is experimental and performs additional external setup. Read
 its upstream instructions before enabling it:

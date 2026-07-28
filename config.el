@@ -62,16 +62,16 @@ This is experimental and overlaps with Spacemacs's Claude Code layer."
   :type 'boolean
   :group 'agentic-systems)
 
-(defcustom agentic-systems-enable-agent-shell-manager nil
+(defcustom agentic-systems-enable-agent-shell-manager t
   "When non-nil, enable the tabulated Agent Shell manager."
   :type 'boolean
   :group 'agentic-systems)
 
-(defcustom agentic-systems-enable-agent-shell-workspace nil
+(defcustom agentic-systems-enable-agent-shell-workspace t
   "When non-nil, enable the Agent Shell tab-bar workspace.
 
-This overlaps with `agent-shell-manager' and may overlap with Spacemacs
-workspaces, so it is disabled by default."
+This provides a focused sidebar and tiled agent view alongside the tabulated
+`agent-shell-manager' view.  It may overlap with Spacemacs workspaces."
   :type 'boolean
   :group 'agentic-systems)
 
