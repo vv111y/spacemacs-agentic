@@ -61,7 +61,8 @@
   (should agentic-systems-enable-agent-review)
   (should agentic-systems-enable-agent-recall)
   (should agentic-systems-enable-agent-shell-manager)
-  (should agentic-systems-enable-agent-shell-workspace)
+  (should-not agentic-systems-enable-agent-shell-workspace)
+  (should agentic-systems-enable-agent-shell-notifications)
   (should-not agentic-systems-enable-org-transcripts)
   (should-not agentic-systems-enable-org-babel)
   (should-not agentic-systems-enable-meta-agent-shell)
@@ -86,6 +87,8 @@
 (ert-deftest agentic-systems-github-recipes-are-pinned-to-expected-repositories ()
   (let ((expected
          '((agent-review . "nineluj/agent-review")
+           (agent-shell-notifications
+            . "zackattackz/agent-shell-notifications")
            (agent-shell-manager . "jethrokuan/agent-shell-manager")
            (agent-shell-workspace . "gveres/agent-shell-workspace")
            (agent-shell-org-transcript

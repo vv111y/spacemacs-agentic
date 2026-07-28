@@ -15,7 +15,8 @@ Enabled by default:
 - [[https://github.com/nineluj/agent-review][agent-review]]: structured cross-agent review of Git changes.
 - [[https://github.com/Marx-A00/agent-recall][agent-recall]]: index, search, browse, and resume Agent Shell transcripts.
 - [[https://github.com/jethrokuan/agent-shell-manager][agent-shell-manager]]: tabulated monitoring and management of many agents.
-- [[https://github.com/gveres/agent-shell-workspace][agent-shell-workspace]]: dedicated agent workspace with a status sidebar and tiling.
+- [[https://github.com/zackattackz/agent-shell-notifications][agent-shell-notifications]] and [[https://github.com/jwiegley/alert][alert]]: event-aware visual notifications, with
+  audio notifications on macOS.
 
 Optional backend integrations:
 
@@ -39,6 +40,7 @@ Optional AI Code integrations:
 
 Opt-in extensions:
 
+- [[https://github.com/gveres/agent-shell-workspace][agent-shell-workspace]]: dedicated tab-bar workspace with a status sidebar and tiling.
 - [[https://github.com/lllShamanlll/agent-shell-org-transcript][agent-shell-org-transcript]]: Org/org-roam transcripts.
 - [[https://github.com/eddof13/ob-agent-shell][ob-agent-shell]]: execute Agent Shell prompts from Org Babel blocks.
 - [[https://github.com/ElleNajt/meta-agent-shell][meta-agent-shell]]: experimental multi-agent dispatch and coordination.
@@ -80,21 +82,96 @@ Restart Spacemacs or run =SPC f e R=.
 Agent Shell still needs an agent runtime. Consult its [[https://github.com/xenodium/agent-shell#setup][setup guide]] for Codex,
 Claude Code, Gemini CLI, OpenCode, Goose, Qwen, and other ACP agents.
 
+* Herdr parity
+
+One goal of this layer is to reproduce the parts of [[https://github.com/ogulcancelik/herdr][Herdr]] that make it
+comfortable to leave several agents running while switching activities. It is
+not a drop-in Herdr clone: Agent Shell presents OpenCode through ACP rather than
+embedding its terminal UI, and remote access remains an Emacs deployment
+choice.
+
+This table is the feature guide for that goal:
+
+| Herdr capability | Spacemacs equivalent | Current status |
+|------------------+----------------------+----------------|
+| Multiple OpenCode agents | Multiple =agent-shell= buffers using the OpenCode ACP adapter | Covered |
+| At-a-glance agent overview | =agent-shell-manager= | Covered by default |
+| Working, waiting, ready, and stopped state | Live manager status plus Agent Shell events | Covered |
+| Visual and audio attention notifications | =agent-shell-notifications= through =alert=; =afplay= on macOS | Covered locally |
+| Split or tiled agent view | =agent-shell-workspace= | Optional |
+| Permission handling and interruption | Native Agent Shell/ACP controls and manager actions | Covered |
+| Editor context and diffs | Native Agent Shell/ACP integration | Covered |
+| Transcript search and session resume | =agent-recall= | Covered |
+| Agents survive closing the UI | Run Spacemacs as an Emacs daemon, optionally inside =tmux= | Deployment setup |
+| Reattach over SSH | SSH to the host and run =emacsclient= against the daemon | Manual setup |
+| Local clipboard, image, and phone bridge to a remote host | No general equivalent in this layer | Gap |
+| Preserve the complete OpenCode terminal UI | Use OpenCode in =vterm= or =eat= instead of Agent Shell | Different workflow |
+
+The table should be updated when support changes, rather than treating
+"Herdr-like" as an unqualified compatibility claim.
+
+* Notifications
+
+Notifications are enabled by default for completed turns and permission
+requests. =agent-shell-notifications= decides when an agent needs attention;
+this layer delivers the result through =alert=. Notifications are immediate
+when the Agent Shell is not visible, delayed briefly when it is visible, and
+dismissed from the integration state when you return to the shell.
+
+** macOS / OS X
+
+The default macOS setup is both visual and audible:
+
+- =alert= uses =terminal-notifier= when it is on =exec-path=, otherwise its
+  built-in AppleScript notification style.
+- Audio is played independently with =afplay=. The default is
+  =/System/Library/Sounds/Glass.aiff=, so sound does not depend on the visual
+  notification backend supporting it.
+
+The built-in AppleScript backend requires no extra command. For a more
+predictable Notification Center identity, install =terminal-notifier=:
+
+#+begin_src shell
+brew install terminal-notifier
+#+end_src
+
+Allow notifications for Emacs or =terminal-notifier= in System Settings when
+macOS prompts. Then run =M-x agentic-systems-test-agent-shell-notification=.
+
+Customize the sound or visual backend in the layer declaration:
+
+#+begin_src emacs-lisp
+(spacemacs-agentic :variables
+                 ;; Any readable audio file, or nil for visual-only.
+                 agentic-systems-agent-shell-notification-sound
+                 "/System/Library/Sounds/Ping.aiff"
+                 ;; nil auto-selects notifier/osx-notifier on macOS.
+                 agentic-systems-agent-shell-alert-style nil)
+#+end_src
+
+On Linux, the automatic visual style prefers =notify-send=, then Emacs's
+=notifications.el= support, and finally the user's =alert-default-style=.
+When Emacs itself runs on a remote host, notifications are emitted on that
+host; this layer does not tunnel desktop notifications or audio back through
+SSH.
+
 * Optional features
 
 #+begin_src emacs-lisp
 (spacemacs-agentic :variables
+                 agentic-systems-enable-agent-shell-workspace t
                  agentic-systems-enable-org-transcripts t
                  agentic-systems-org-transcript-directory
                  "~/org/agent-transcripts/"
                  agentic-systems-enable-org-babel t)
 #+end_src
 
-The manager and workspace are enabled together by default: the manager provides
-a compact tabulated overview, while the workspace provides a focused sidebar and
-tiled agent buffers. The workspace may overlap with Spacemacs perspectives; set
-=agentic-systems-enable-agent-shell-workspace= to =nil= if that becomes
-disruptive.
+The manager is enabled by default; the workspace is opt-in. They do not have a
+known hard conflict, but they overlap in status display and agent lifecycle
+controls. The workspace additionally owns a dedicated =tab-bar= tab, redirects
+non-agent buffers out of it, and tiles agent buffers. Those behaviors are useful
+when desired but can overlap with Spacemacs perspectives, so the smaller manager
+is the safer public-layer default.
 
 =meta-agent-shell= is experimental and performs additional external setup. Read
 its upstream instructions before enabling it:

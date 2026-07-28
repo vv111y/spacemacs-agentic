@@ -7,6 +7,12 @@
   '((ai-code :toggle agentic-systems-enable-ai-code)
     (acp :toggle agentic-systems-enable-agent-shell)
     (agent-shell :toggle agentic-systems-enable-agent-shell)
+    (alert :toggle agentic-systems-enable-agent-shell-notifications)
+    (agent-shell-notifications
+     :toggle agentic-systems-enable-agent-shell-notifications
+     :location (recipe :fetcher github
+                       :repo "zackattackz/agent-shell-notifications"
+                       :files ("*.el")))
     (eca :toggle agentic-systems-enable-eca)
     (claude-code
      :toggle agentic-systems-enable-claude-code
@@ -117,6 +123,29 @@
     :config
     (evil-define-key 'motion agent-shell-mode-map
       (kbd "C-<tab>") #'agent-shell-cycle-session-mode)))
+
+(defun spacemacs-agentic/init-alert ()
+  "Initialize `alert' for Agent Shell notifications."
+  (use-package alert
+    :defer t))
+
+(defun spacemacs-agentic/init-agent-shell-notifications ()
+  "Initialize event-aware Agent Shell notifications."
+  (use-package agent-shell-notifications
+    :defer t
+    :commands (agent-shell-notifications-mode
+               agent-shell-notifications-viewport-edit-mode
+               agent-shell-notifications-viewport-view-mode)
+    :init
+    (setq agent-shell-notifications-provider nil
+          agent-shell-notifications-send-function
+          #'agentic-systems--send-agent-shell-notification
+          agent-shell-notifications-close-function #'ignore)
+    (add-hook 'agent-shell-mode-hook #'agent-shell-notifications-mode)
+    (add-hook 'agent-shell-viewport-edit-mode-hook
+              #'agent-shell-notifications-viewport-edit-mode)
+    (add-hook 'agent-shell-viewport-view-mode-hook
+              #'agent-shell-notifications-viewport-view-mode)))
 
 (defun spacemacs-agentic/init-agent-review ()
   "Initialize `agent-review'."
