@@ -5,6 +5,10 @@
 
 (defvar alert-default-style)
 
+(defconst agentic-systems--layer-directory
+  (file-name-directory (or load-file-name buffer-file-name))
+  "Absolute path to the spacemacs-agentic layer.")
+
 (defgroup agentic-systems nil
   "Agentic development and orchestration in Spacemacs."
   :group 'spacemacs)
@@ -82,7 +86,7 @@ buffer-isolation behavior may overlap with Spacemacs perspectives."
   "When non-nil, notify when Agent Shell completes or needs permission.
 
 Notifications use `alert' for visual delivery.  On macOS, the layer also
-plays `agentic-systems-agent-shell-notification-sound' with `afplay'."
+plays the event-specific bundled sound with `afplay'."
   :type 'boolean
   :group 'agentic-systems)
 
@@ -96,16 +100,30 @@ When nil, choose `notifier' or `osx-notifier' on macOS, `libnotify' or
                  (symbol :tag "Alert style"))
   :group 'agentic-systems)
 
-(defcustom agentic-systems-agent-shell-notification-sound
-  (when (eq system-type 'darwin)
-    "/System/Library/Sounds/Glass.aiff")
-  "Sound played for Agent Shell notifications on macOS.
+(defcustom agentic-systems-agent-shell-completion-sound
+  (expand-file-name "assets/sounds/herdr/done.mp3"
+                    agentic-systems--layer-directory)
+  "Sound played when an Agent Shell turn completes on macOS.
 
-Set this to nil to disable audio, or to another readable audio file.  Playback
-uses the macOS `afplay' command and never blocks Emacs."
+Set this to nil to disable completion audio, or to another readable audio file."
   :type '(choice (const :tag "No sound" nil)
                  (file :tag "Audio file"))
   :group 'agentic-systems)
+
+(defcustom agentic-systems-agent-shell-request-sound
+  (expand-file-name "assets/sounds/herdr/request.mp3"
+                    agentic-systems--layer-directory)
+  "Sound played when Agent Shell needs permission or input on macOS.
+
+Set this to nil to disable request audio, or to another readable audio file."
+  :type '(choice (const :tag "No sound" nil)
+                 (file :tag "Audio file"))
+  :group 'agentic-systems)
+
+(defun agentic-systems--format-agent-shell-notification (type event)
+  "Format a TYPE and EVENT while preserving TYPE for sound selection."
+  (append (agent-shell-notifications--format-default type event)
+          (list :agent-shell-event-type type)))
 
 (defun agentic-systems--agent-shell-alert-style ()
   "Return the effective `alert' style for Agent Shell notifications."
@@ -119,21 +137,26 @@ uses the macOS `afplay' command and never blocks Emacs."
        ((featurep 'notifications) 'notifications)
        (t alert-default-style))))
 
-(defun agentic-systems--play-agent-shell-notification-sound ()
-  "Play the configured Agent Shell notification sound on macOS."
-  (when (and (eq system-type 'darwin)
-             agentic-systems-agent-shell-notification-sound
-             (file-readable-p
-              agentic-systems-agent-shell-notification-sound)
-             (executable-find "afplay"))
-    (start-process
-     "agent-shell-notification-sound" nil
-     "afplay"
-     (expand-file-name agentic-systems-agent-shell-notification-sound))))
+(defun agentic-systems--agent-shell-notification-sound (notification)
+  "Return the configured sound for NOTIFICATION."
+  (if (eq (plist-get notification :agent-shell-event-type)
+          'permission-request)
+      agentic-systems-agent-shell-request-sound
+    agentic-systems-agent-shell-completion-sound))
+
+(defun agentic-systems--play-agent-shell-notification-sound (notification)
+  "Play the configured sound for NOTIFICATION on macOS."
+  (let ((sound (agentic-systems--agent-shell-notification-sound notification)))
+    (when (and (eq system-type 'darwin)
+               sound
+               (file-readable-p sound)
+               (executable-find "afplay"))
+      (start-process "agent-shell-notification-sound" nil
+                     "afplay" (expand-file-name sound)))))
 
 (defun agentic-systems--send-agent-shell-notification (notification)
   "Send an Agent Shell NOTIFICATION plist through `alert'."
-  (agentic-systems--play-agent-shell-notification-sound)
+  (agentic-systems--play-agent-shell-notification-sound notification)
   (require 'alert)
   (let ((title (or (plist-get notification :title) "Agent Shell")))
     (alert (or (plist-get notification :body) title)
@@ -150,7 +173,8 @@ uses the macOS `afplay' command and never blocks Emacs."
   (interactive)
   (agentic-systems--send-agent-shell-notification
    '(:title "Agent Shell test"
-     :body "Visual and audio notifications are working.")))
+     :body "Visual and audio notifications are working."
+     :agent-shell-event-type turn-complete)))
 
 (defcustom agentic-systems-enable-org-transcripts nil
   "When non-nil, save Agent Shell transcripts as Org files."

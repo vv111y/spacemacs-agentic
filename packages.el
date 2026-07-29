@@ -138,6 +138,8 @@
                agent-shell-notifications-viewport-view-mode)
     :init
     (setq agent-shell-notifications-provider nil
+          agent-shell-notifications-format-function
+          #'agentic-systems--format-agent-shell-notification
           agent-shell-notifications-send-function
           #'agentic-systems--send-agent-shell-notification
           agent-shell-notifications-close-function #'ignore)

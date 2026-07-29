@@ -124,9 +124,11 @@ The default macOS setup is both visual and audible:
 
 - =alert= uses =terminal-notifier= when it is on =exec-path=, otherwise its
   built-in AppleScript notification style.
-- Audio is played independently with =afplay=. The default is
-  =/System/Library/Sounds/Glass.aiff=, so sound does not depend on the visual
-  notification backend supporting it.
+- Audio is played independently with =afplay=, so it does not depend on the
+  visual notification backend supporting sound. Completed turns use Herdr's
+  bundled =done.mp3=; permission and input requests use =request.mp3=.
+- The vendored sounds retain their Apache-2.0 license and source attribution in
+  [[file:assets/sounds/herdr/README.md][assets/sounds/herdr/README.md]].
 
 The built-in AppleScript backend requires no extra command. For a more
 predictable Notification Center identity, install =terminal-notifier=:
@@ -142,9 +144,11 @@ Customize the sound or visual backend in the layer declaration:
 
 #+begin_src emacs-lisp
 (spacemacs-agentic :variables
-                 ;; Any readable audio file, or nil for visual-only.
-                 agentic-systems-agent-shell-notification-sound
+                 ;; Any readable audio files, or nil to mute that event.
+                 agentic-systems-agent-shell-completion-sound
                  "/System/Library/Sounds/Ping.aiff"
+                 agentic-systems-agent-shell-request-sound
+                 "/System/Library/Sounds/Sosumi.aiff"
                  ;; nil auto-selects notifier/osx-notifier on macOS.
                  agentic-systems-agent-shell-alert-style nil)
 #+end_src
