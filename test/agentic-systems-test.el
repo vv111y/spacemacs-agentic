@@ -60,12 +60,29 @@
   (should-not agentic-systems-enable-claude-code-ide)
   (should agentic-systems-enable-agent-review)
   (should agentic-systems-enable-agent-recall)
-  (should-not agentic-systems-enable-agent-shell-manager)
+  (should agentic-systems-enable-agent-shell-manager)
   (should-not agentic-systems-enable-agent-shell-workspace)
+  (should agentic-systems-enable-agent-shell-notifications)
+  (should (string-suffix-p
+           "assets/sounds/herdr/done.mp3"
+           agentic-systems-agent-shell-completion-sound))
+  (should (string-suffix-p
+           "assets/sounds/herdr/request.mp3"
+           agentic-systems-agent-shell-request-sound))
   (should-not agentic-systems-enable-org-transcripts)
   (should-not agentic-systems-enable-org-babel)
   (should-not agentic-systems-enable-meta-agent-shell)
   (should (eq agentic-systems-ai-code-backend 'agent-shell)))
+
+(ert-deftest agentic-systems-selects-sounds-by-event-type ()
+  (should (equal
+           (agentic-systems--agent-shell-notification-sound
+            '(:agent-shell-event-type turn-complete))
+           agentic-systems-agent-shell-completion-sound))
+  (should (equal
+           (agentic-systems--agent-shell-notification-sound
+            '(:agent-shell-event-type permission-request))
+           agentic-systems-agent-shell-request-sound)))
 
 (ert-deftest agentic-systems-declares-required-layers ()
   (should (equal agentic-systems-test--dependencies '(git org))))
@@ -86,6 +103,8 @@
 (ert-deftest agentic-systems-github-recipes-are-pinned-to-expected-repositories ()
   (let ((expected
          '((agent-review . "nineluj/agent-review")
+           (agent-shell-notifications
+            . "zackattackz/agent-shell-notifications")
            (agent-shell-manager . "jethrokuan/agent-shell-manager")
            (agent-shell-workspace . "gveres/agent-shell-workspace")
            (agent-shell-org-transcript
